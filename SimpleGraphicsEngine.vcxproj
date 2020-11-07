@@ -155,9 +155,13 @@
     <ClInclude Include="ge\Counter.h" />
     <ClInclude Include="ge\Delayer.h" />
     <ClInclude Include="ge\ge.h" />
+    <ClInclude Include="ge\Point.h" />
+    <ClInclude Include="ge\Rect.h" />
     <ClInclude Include="ge\utility.h" />
     <ClInclude Include="ge\vf.h" />
     <ClInclude Include="ge\Window.h" />
+    <ClInclude Include="ge\Wait_Notify.h" />
+    <ClInclude Include="ge\Size.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ge\ge.cpp" />

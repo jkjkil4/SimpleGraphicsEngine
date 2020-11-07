@@ -38,8 +38,20 @@
     <ClInclude Include="ge\Console.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="ge\Wait_Notify.h">
+      <Filter>SimpleGraphicsEngine</Filter>
+    </ClInclude>
     <ClInclude Include="ge\Window.h">
       <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Rect.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Size.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Point.h">
+      <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

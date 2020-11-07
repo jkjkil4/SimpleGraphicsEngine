@@ -25,3 +25,19 @@ typedef LPDIRECT3D9 LPDirectx;
 typedef LPDIRECT3DDEVICE9 LPDevice;
 
 typedef D3DXIMAGE_INFO ImageInfo;
+
+namespace ge {
+	template<typename T>inline void SafeDelete(T*& t) {
+		if (t) {
+			delete t;
+			t = nullptr;
+		}
+	}
+	template<typename T>inline void SafeDeleteArray(T*& t) {
+		if (t) {
+			delete[] t;
+			t = nullptr;
+		}
+	}
+
+}
