@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="SimpleGraphicsEngine">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Class">
+      <UniqueIdentifier>{8caa9457-9184-4341-8757-c174874a30dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{0d83727d-aae0-4a45-9f20-04bdd9628abe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window">
+      <UniqueIdentifier>{a31e4e02-e5e0-4823-87d6-796e59ca4979}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ge\ge.h">
+      <Filter>SimpleGraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Counter.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Delayer.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\utility.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\vf.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Console.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Window.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ge\ge.cpp">
+      <Filter>SimpleGraphicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ge\Window.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
+</Project>
