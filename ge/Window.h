@@ -21,7 +21,7 @@ namespace ge {
 		std::wstring getWindowTitle() const;
 
 		//窗口的位置和大小相关
-		Rect rect();
+		Rect rect() const;
 		void move(int x, int y, int w, int h);
 		void move(const Rect& rect);
 		void move(const Point& pos);

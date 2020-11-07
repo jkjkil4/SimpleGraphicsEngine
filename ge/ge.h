@@ -14,7 +14,7 @@ namespace ge {
 		SimpleGraphicsEngine(HINSTANCE hInstance, int _delayMicro = 16667);
 		~SimpleGraphicsEngine() = default;
 
-		Rect screenAvailableRect();
+		static Rect screenAvailableRect();
 
 		static int exec();
 

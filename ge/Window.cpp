@@ -82,7 +82,7 @@ std::wstring Window::getWindowTitle() const {
 	return wndTitle;
 }
 
-Rect Window::rect() {
+Rect Window::rect() const {
 	RECT rect;
 	GetWindowRect(g_hWnd, &rect);
 	return Rect(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
