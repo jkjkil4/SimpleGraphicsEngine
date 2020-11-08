@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "ge.h"
+#include "Console.h"
 
 GE_NAMESPACE;
 
@@ -49,11 +50,10 @@ void Window::thMsgFn() {
 		NULL, NULL, wc.hInstance, NULL);
 	
 
-	//得到画面宽高
-	//RECT rect;
-	//GetClientRect(g_hWnd, &rect);
-	//defWidth = viewWidth = rect.right - rect.left;
-	//defHeight = viewHeight = rect.bottom - rect.top;
+	//得到窗口画面的区域
+	RECT rect;
+	GetClientRect(g_hWnd, &rect);
+	clientRect = rect;
 
 	mapWnd[g_hWnd] = this;
 	tmpWaitNotify->notify();
@@ -68,6 +68,13 @@ void Window::thMsgFn() {
 		DispatchMessage(&msg);
 		mtxMsg.unlock();
 	}
+
+	mtxMsg.lock();
+	vector<Window*>& vSendQuitMsgHWnd = SimpleGraphicsEngine::vSendQuitMsgHWnd;
+	vector<Window*>::iterator iter = std::find(vSendQuitMsgHWnd.begin(), vSendQuitMsgHWnd.end(), this);
+	if(iter != vSendQuitMsgHWnd.end())
+		vSendQuitMsgHWnd.erase(iter);
+	mtxMsg.unlock();
 
 	UnregisterClass(className.c_str(), SimpleGraphicsEngine::g_hInstance);
 	wndCount--;
@@ -124,12 +131,21 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 LRESULT CALLBACK Window::procWndMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {
+	case WM_MOVE:
+	case WM_SIZE:
+		//得到窗口画面的区域
+		RECT rect;
+		GetClientRect(g_hWnd, &rect);
+		clientRect = rect;
+		break;
 	case WM_CLOSE:
+		//销毁窗口
 		DestroyWindow(hWnd);
 		mapWnd.erase(g_hWnd);
 		break;
 	case WM_DESTROY:
-		PostQuitMessage(0);
+		//退出消息循环
+		SimpleGraphicsEngine::vSendQuitMsgHWnd.push_back(this);
 		break;
 	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);

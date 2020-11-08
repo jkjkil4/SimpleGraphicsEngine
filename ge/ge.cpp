@@ -8,6 +8,7 @@ GE_NAMESPACE;
 typedef SimpleGraphicsEngine SGE;
 HINSTANCE SGE::g_hInstance = nullptr;
 int SGE::delayMicro;
+std::vector<Window*> SimpleGraphicsEngine::vSendQuitMsgHWnd;
 
 
 SimpleGraphicsEngine::SimpleGraphicsEngine(HINSTANCE hInstance, int _delayMicro)
@@ -34,8 +35,16 @@ int SimpleGraphicsEngine::exec() {
 
 	while (Window::wndCount) {
 		Window::mtxMsg.lock();
+
 		//TODO: MainLoop
+
+		//使得需要退出消息循环的窗口退出消息循环
+		for (Window* wnd : vSendQuitMsgHWnd) {
+			PostThreadMessage(wnd->threadId, WM_QUIT, 0, 0);
+		}
+
 		Window::mtxMsg.unlock();
+
 
 		//时间控制
 		int spentMicro = (int)((counter.getTime() - startTime) * 1000);

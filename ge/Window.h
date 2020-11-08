@@ -2,6 +2,7 @@
 
 #include "utility.h"
 #include "Wait_Notify.h"
+#include "vf.h"
 #include <thread>
 #include <map>
 #include <string>
@@ -21,6 +22,7 @@ namespace ge {
 		std::wstring getWindowTitle() const;
 
 		//窗口的位置和大小相关
+		VAR_GET_FUNC(ClientRect, clientRect, Rect)
 		Rect rect() const;
 		void move(int x, int y, int w, int h);
 		void move(const Rect& rect);
@@ -41,6 +43,7 @@ namespace ge {
 
 		HWND g_hWnd = nullptr;	//窗口句柄
 		std::wstring wndTitle = _T("SGE");	//窗口标题
+		Rect clientRect = Rect(0, 0, 0, 0);	//窗口画面的区域
 
 		//窗口消息处理相关
 		static std::map<HWND, Window*> mapWnd;	//用来对应 (HWND - Window*) 的map，以便在WndProc中调用procWndMessage

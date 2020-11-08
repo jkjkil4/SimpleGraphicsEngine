@@ -2,6 +2,7 @@
 
 #include <map>
 #include <mutex>
+#include <vector>
 #include "utility.h"
 #include "Rect.h"
 
@@ -22,6 +23,8 @@ namespace ge {
 		friend class Window;
 
 		static HINSTANCE g_hInstance;
-		static int delayMicro;
+		static int delayMicro;	//延时时间
+
+		static std::vector<Window*> vSendQuitMsgHWnd;	//记录需要退出消息循环的窗口
 	};
 }
