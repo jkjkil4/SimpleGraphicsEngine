@@ -11,6 +11,8 @@
 #include "Size.h"
 
 namespace ge {
+	struct ResizeEvent;
+
 	class Window
 	{
 	public:
@@ -22,7 +24,7 @@ namespace ge {
 		std::wstring getWindowTitle() const;
 
 		//窗口的位置和大小相关
-		VAR_GET_FUNC(ClientRect, clientRect, Rect)
+		VAR_GET_FUNC(ClientSize, clientSize, Size)
 		Rect rect() const;
 		void move(int x, int y, int w, int h);
 		void move(const Rect& rect);
@@ -38,12 +40,13 @@ namespace ge {
 
 	private:
 		friend class SimpleGraphicsEngine;
+		friend class Device_dx;
 
 		Wait_Notify* tmpWaitNotify = nullptr;	//临时的用来等待初始化的，用指针是为了在用完之后不再占用太多内存
 
 		HWND g_hWnd = nullptr;	//窗口句柄
 		std::wstring wndTitle = _T("SGE");	//窗口标题
-		Rect clientRect = Rect(0, 0, 0, 0);	//窗口画面的区域
+		Size clientSize;	//窗口画面的区域
 
 		//窗口消息处理相关
 		static std::map<HWND, Window*> mapWnd;	//用来对应 (HWND - Window*) 的map，以便在WndProc中调用procWndMessage
@@ -55,5 +58,8 @@ namespace ge {
 		DWORD threadId = 0;		//消息处理线程id
 		std::wstring className;	//窗口的className
 		void thMsgFn();	//消息处理线程的函数
+
+		//事件相关
+		virtual void resizeEvent(ResizeEvent* ev);
 	};
 }

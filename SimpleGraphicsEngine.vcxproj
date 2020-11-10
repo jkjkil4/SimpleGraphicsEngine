@@ -151,9 +151,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ge\Device_dx.h" />
     <ClInclude Include="ge\Console.h" />
     <ClInclude Include="ge\Counter.h" />
     <ClInclude Include="ge\Delayer.h" />
+    <ClInclude Include="ge\Event.h" />
     <ClInclude Include="ge\ge.h" />
     <ClInclude Include="ge\Point.h" />
     <ClInclude Include="ge\Rect.h" />
@@ -164,7 +166,9 @@
     <ClInclude Include="ge\Size.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ge\Device_dx.cpp" />
     <ClCompile Include="ge\ge.cpp" />
+    <ClCompile Include="ge\utility_dx.h" />
     <ClCompile Include="ge\Window.cpp" />
   </ItemGroup>
   <ItemGroup>

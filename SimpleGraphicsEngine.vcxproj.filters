@@ -18,6 +18,9 @@
     <Filter Include="Window">
       <UniqueIdentifier>{a31e4e02-e5e0-4823-87d6-796e59ca4979}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Device">
+      <UniqueIdentifier>{e76695e1-d2e6-4342-b51b-8c8cb1226b93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ge\ge.h">
@@ -53,6 +56,12 @@
     <ClInclude Include="ge\Point.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="ge\Device_dx.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Event.h">
+      <Filter>Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ge\ge.cpp">
@@ -60,6 +69,12 @@
     </ClCompile>
     <ClCompile Include="ge\Window.cpp">
       <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="ge\utility_dx.h">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ge\Device_dx.cpp">
+      <Filter>Device</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
