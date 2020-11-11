@@ -10,12 +10,15 @@ namespace ge {
 	public:
 		Device_dx(Window* wnd);
 
+		void updatePresentParameters();
+
 	private:
 		Window* wnd;
 
 		static LPDirectx g_pD3D;
 		static D3DDISPLAYMODE d3ddm;
 
+		D3DPRESENT_PARAMETERS d3dpp;
 		LPDevice g_pDevice;
 	};
 }
