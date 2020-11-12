@@ -30,6 +30,9 @@ Device_dx::Device_dx(Window* wnd) : wnd(wnd)
 	//创建Sprite
 	D3DXCreateSprite(g_pDevice, &g_pSprite);
 	D3DXCreateSprite(g_pDevice, &g_pSpriteRender);
+
+	//渲染到纹理 相关
+
 }
 
 
@@ -41,8 +44,8 @@ void Device_dx::end() {
 	g_pSprite->End();	//结束Sprite的绘制
 
 	g_pDevice->BeginScene();	//获取绘制权限
-	g_pSpriteRender->Begin(D3DXSPRITE_ALPHABLEND);
-
+	g_pSpriteRender->Begin(0);
+	g_pSpriteRender->Draw(g_pRenderTexture, nullptr, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 0, 0), globalBlend);
 	g_pSpriteRender->End();
 	g_pDevice->EndScene();		//结束绘制
 
@@ -56,4 +59,24 @@ void Device_dx::updatePresentParameters() {
 	d3dpp.BackBufferWidth = wnd->clientSize.width;
 	d3dpp.BackBufferHeight = wnd->clientSize.height;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;	//翻转效果：抛弃
+}
+
+
+void Device_dx::onRelease_RenderTexture() {
+	SafeRelease(g_pRenderSurface);
+	SafeRelease(g_pRenderTexture);
+	SafeRelease(g_pWindowSurface);
+}
+
+void Device_dx::onReset_RenderTexture() {
+	//创建用于渲染到纹理的Texture和Surface
+	g_pDevice->CreateTexture(
+		wnd->clientSize.width, wnd->clientSize.height, 1,
+		D3DUSAGE_RENDERTARGET, D3DFMT_R5G6B5, D3DPOOL_DEFAULT, &g_pRenderTexture, NULL
+	);
+	g_pRenderTexture->GetSurfaceLevel(0, &g_pRenderSurface);
+
+	//得到设备的Surface
+	g_pDevice->GetRenderTarget(0, &g_pWindowSurface);
+	g_pDevice->SetRenderTarget(0, g_pRenderSurface);
 }

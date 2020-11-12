@@ -8,6 +8,7 @@
 #include "Rect.h"
 
 namespace ge {
+	class Object;
 	class Window;
 	struct SendEvent;
 	struct Event;
@@ -30,7 +31,7 @@ namespace ge {
 		static int delayMicro;	//延时时间
 
 		static std::vector<Window*> vSendQuitMsgHWnd;	//记录需要退出消息循环的窗口
-		static std::list<SendEvent> lSendEvent;
-		static void postEvent(Window* wnd, EventFunc func, Event* ev, bool single);
+		static std::list<SendEvent> lSendEvent;		//需要调用的事件
+		static void postEvent(Window* wnd, EventFunc func, Event* ev, bool single);	//发送事件
 	};
 }
