@@ -7,6 +7,11 @@
 namespace ge {
 	class Window;
 
+	/*
+		需要在Reset设备时管理的东西
+		g_pSprite g_pSpriteRender
+		g_pRenderTexture g_pRenderSurface g_pWindowSurface
+	*/
 	class Device_dx : public Device
 	{
 	public:
@@ -34,11 +39,15 @@ namespace ge {
 
 		LPSprite g_pSprite;			//用于绘制的 Sprite
 
-		void onRelease_RenderTexture();
-		void onReset_RenderTexture();
+		void onLostDevice_RenderTexture();
+		void onResetDevice_RenderTexture();
 		LPSurface g_pWindowSurface;	//窗口 Surface
 		LPTexture g_pRenderTexture;	//用于渲染到纹理的 Texture
 		LPSurface g_pRenderSurface;	//纹理的 Surface
 		LPSprite g_pSpriteRender;	//用于渲染到纹理的 Sprite
+
+		//设备Lost和Reset相关
+		void onLostDevice();
+		void onResetDevice();
 	};
 }

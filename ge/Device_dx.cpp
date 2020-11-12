@@ -32,12 +32,12 @@ Device_dx::Device_dx(Window* wnd) : wnd(wnd)
 	D3DXCreateSprite(g_pDevice, &g_pSpriteRender);
 
 	//渲染到纹理 相关
-
+	onResetDevice_RenderTexture();
 }
 
 
 void Device_dx::begin() {
-	g_pDevice->Clear(0, nullptr, D3DCLEAR_TARGET, backgroundColor, 1.0f, 0);
+	g_pDevice->Clear(0, nullptr, D3DCLEAR_TARGET, backgroundColor, 1.0f, 0);	//用bgColor填充
 }
 
 void Device_dx::end() {
@@ -45,7 +45,7 @@ void Device_dx::end() {
 
 	g_pDevice->BeginScene();	//获取绘制权限
 	g_pSpriteRender->Begin(0);
-	g_pSpriteRender->Draw(g_pRenderTexture, nullptr, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 0, 0), globalBlend);
+	g_pSpriteRender->Draw(g_pRenderTexture, nullptr, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 0, 0), globalBlend);//将纹理绘制到窗口
 	g_pSpriteRender->End();
 	g_pDevice->EndScene();		//结束绘制
 
@@ -62,13 +62,25 @@ void Device_dx::updatePresentParameters() {
 }
 
 
-void Device_dx::onRelease_RenderTexture() {
+void Device_dx::onLostDevice() {
+	onLostDevice_RenderTexture();
+	g_pSprite->OnLostDevice();
+	g_pSpriteRender->OnLostDevice();
+}
+
+void Device_dx::onResetDevice() {
+	onResetDevice_RenderTexture();
+	g_pSprite->OnResetDevice();
+	g_pSpriteRender->OnResetDevice();
+}
+
+void Device_dx::onLostDevice_RenderTexture() {
 	SafeRelease(g_pRenderSurface);
 	SafeRelease(g_pRenderTexture);
 	SafeRelease(g_pWindowSurface);
 }
 
-void Device_dx::onReset_RenderTexture() {
+void Device_dx::onResetDevice_RenderTexture() {
 	//创建用于渲染到纹理的Texture和Surface
 	g_pDevice->CreateTexture(
 		wnd->clientSize.width, wnd->clientSize.height, 1,
