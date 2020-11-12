@@ -26,7 +26,29 @@ Device_dx::Device_dx(Window* wnd) : wnd(wnd)
 		&d3dpp,		//设备的能力
 		&g_pDevice	//返回的设备指针
 	);
+
+	//创建Sprite
+	D3DXCreateSprite(g_pDevice, &g_pSprite);
+	D3DXCreateSprite(g_pDevice, &g_pSpriteRender);
 }
+
+
+void Device_dx::begin() {
+	g_pDevice->Clear(0, nullptr, D3DCLEAR_TARGET, backgroundColor, 1.0f, 0);
+}
+
+void Device_dx::end() {
+	g_pSprite->End();	//结束Sprite的绘制
+
+	g_pDevice->BeginScene();	//获取绘制权限
+	g_pSpriteRender->Begin(D3DXSPRITE_ALPHABLEND);
+
+	g_pSpriteRender->End();
+	g_pDevice->EndScene();		//结束绘制
+
+	g_pSprite->Begin(D3DXSPRITE_ALPHABLEND);	//开始Sprite的绘制
+}
+
 
 void Device_dx::updatePresentParameters() {
 	d3dpp.BackBufferCount = 1;

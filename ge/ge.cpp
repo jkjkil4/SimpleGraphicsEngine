@@ -64,6 +64,7 @@ int SimpleGraphicsEngine::exec() {
 		//时间控制
 		int spentMicro = (int)((counter.getTime() - startTime) * 1000);
 		delayer.delay(delayMicro - spentMicro);
+		cout << counter.getTime() - startTime << endl;
 		startTime = counter.getTime();
 	}
 

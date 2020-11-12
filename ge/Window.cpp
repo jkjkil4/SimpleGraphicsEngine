@@ -64,11 +64,8 @@ void Window::thMsgFn() {
 	ZeroMemory(&msg, sizeof(msg));
 	while (msg.message != WM_QUIT) {
 		GetMessage(&msg, 0, 0, 0);
-		cout << "1" << endl;
 		TranslateMessage(&msg);
-		cout << "2" << endl;
 		DispatchMessage(&msg);
-		cout << "3" << endl;
 	}
 
 	mtxMsg.lock();
@@ -132,30 +129,30 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 }
 
 LRESULT CALLBACK Window::procWndMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-	cout << "a" << endl;
-	mtxMsg.lock();
-	cout << "b" << endl;
 	switch (uMsg) {
 	case WM_SIZE:
 		//得到窗口画面的区域
 		RECT rect;
 		GetClientRect(g_hWnd, &rect);
 		clientSize = Size(rect.right - rect.left, rect.bottom - rect.top);
+		mtxMsg.lock();
 		SimpleGraphicsEngine::postEvent(this, (EventFunc)&Window::resizeEvent, new ResizeEvent(clientSize), true);
+		mtxMsg.unlock();
 		break;
 	case WM_CLOSE:
 		//销毁窗口
 		DestroyWindow(hWnd);
+		mtxMsg.lock();
 		mapWnd.erase(g_hWnd);
+		mtxMsg.unlock();
 		break;
 	case WM_DESTROY:
 		//退出消息循环
+		mtxMsg.lock();
 		SimpleGraphicsEngine::vSendQuitMsgHWnd.push_back(this);
+		mtxMsg.unlock();
 		break;
 	}
-	cout << "c" << endl;
-	mtxMsg.unlock();
-	cout << "d" << endl;
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 

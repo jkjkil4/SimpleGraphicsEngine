@@ -62,6 +62,9 @@
     <ClInclude Include="ge\Event.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="ge\Device.h">
+      <Filter>Device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ge\ge.cpp">
