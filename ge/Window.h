@@ -69,5 +69,9 @@ namespace ge {
 
 		//事件相关
 		virtual void resizeEvent(ResizeEvent* ev);
+
+		//主循环相关
+		virtual void onLogic() {}
+		virtual void onRender() {}
 	};
 }

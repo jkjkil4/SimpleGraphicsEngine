@@ -21,7 +21,7 @@ Device_dx::Device_dx(Window* wnd) : Device(wnd)
 
 Device_dx::~Device_dx() {
 	setNeedExitThDevice(true);
-	wnDevice.cv.notify_all();
+	wnDevice.notify();
 	thDevice->join();
 
 	SafeRelease(g_pWindowSurface);
