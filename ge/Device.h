@@ -1,10 +1,22 @@
 #pragma once
 
-class Device
-{
-public:
-	virtual ~Device() = default;
+#include "utility.h"
 
-	virtual void begin() {}
-	virtual void end() {}
-};
+namespace ge {
+	class Window;
+
+	class Device
+	{
+	public:
+		Device(Window* wnd) : wnd(wnd) {}
+		virtual ~Device() = default;
+
+		virtual void begin() {}
+		virtual void end() {}
+
+	private:
+		friend class Device_dx;
+
+		Window* wnd;
+	};
+}

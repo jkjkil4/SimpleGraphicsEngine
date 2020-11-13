@@ -12,7 +12,7 @@ D3DDISPLAYMODE Device_dx::d3ddm = ([](LPDirectx g_pD3D) -> D3DDISPLAYMODE {
 	return d3ddm;
 	})(g_pD3D);
 
-Device_dx::Device_dx(Window* wnd) : wnd(wnd)
+Device_dx::Device_dx(Window* wnd) : Device(wnd)
 {
 	//dx相关的线程
 	thDevice = new thread(&Device_dx::thDeviceFn, this);
@@ -21,7 +21,20 @@ Device_dx::Device_dx(Window* wnd) : wnd(wnd)
 
 Device_dx::~Device_dx() {
 	setNeedExitThDevice(true);
+	wnDevice.cv.notify_all();
 	thDevice->join();
+
+	SafeRelease(g_pWindowSurface);
+	SafeRelease(g_pRenderSurface);
+	SafeRelease(g_pRenderTexture);
+	SafeRelease(g_pSprite);
+	SafeRelease(g_pSpriteRender);
+	SafeRelease(g_pDevice);
+}
+
+
+void Device_dx::gloDestroy() {
+	g_pD3D->Release();
 }
 
 
@@ -89,7 +102,7 @@ void Device_dx::thDeviceFn() {
 		if (hr == D3DERR_DEVICENOTRESET) {
 			Counter counter;
 			counter.start();
-			int startTime = counter.getTime();
+			//double startTime = counter.getTime();
 			onLostDevice();
 			HRESULT hr = g_pDevice->Reset(&d3dpp);
 			if (SUCCEEDED(hr)) {
@@ -97,7 +110,7 @@ void Device_dx::thDeviceFn() {
 			}
 			else {
 				SimpleGraphicsEngine::msgBox(_T("Error: Cannot Reset D3DDevice"));
-				throw Error(Error::ER_RESETFAILED, _T("Error: Cannot Reset D3DDevice"));
+				//throw Error(Error::ER_RESETFAILED, _T("Error: Cannot Reset D3DDevice"));
 			}
 		}
 		else if (hr == D3DERR_DEVICELOST) {

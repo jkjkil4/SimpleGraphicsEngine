@@ -2,6 +2,7 @@
 #include "ge.h"
 #include "Console.h"
 #include "Event.h"
+#include "Device.h"
 
 GE_NAMESPACE;
 
@@ -14,12 +15,14 @@ Window::Window() {
 	thMsg = new thread(&Window::thMsgFn, this);
 	tmpWaitNotify->wait();
 	SafeDelete(tmpWaitNotify);
+	d = new Device(this);
 }
 
 Window::~Window() {
 	close();
 	thMsg->join();
 	SafeDelete(thMsg);
+	SafeDelete(d);
 }
 
 void Window::thMsgFn() {

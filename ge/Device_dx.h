@@ -12,15 +12,26 @@ namespace ge {
 	class Window;
 
 	/*
-		需要在Reset设备时管理的东西
-		g_pSprite g_pSpriteRender
-		g_pRenderTexture g_pRenderSurface g_pWindowSurface
+		对dx的封装
+		使用 gloDestroy() 全局销毁 (指Release了g_pD3D)
 	*/
 	class Device_dx : public Device
 	{
+		/*
+			需要在Reset设备时管理的东西
+			g_pSprite g_pSpriteRender
+			g_pRenderTexture g_pRenderSurface g_pWindowSurface
+
+			需要在销毁时Release的东西
+			g_pDevice
+			g_pSprite g_pSpriteRender
+			g_pRenderTexture g_pRenderSurface g_pWindowSurface
+		*/
 	public:
 		Device_dx(Window* wnd);
 		~Device_dx() override;
+
+		static void gloDestroy();
 
 		void begin() override;
 		void end() override;
@@ -31,8 +42,6 @@ namespace ge {
 		VAR_FUNC(GlobalBlend, globalBlend, D3DCOLOR,,)
 
 	private:
-		Window* wnd;
-
 		Wait_Notify wnDevice;
 		std::thread* thDevice;
 		void thDeviceFn();

@@ -12,12 +12,18 @@
 
 namespace ge {
 	struct ResizeEvent;
+	class Device;
 
 	class Window
 	{
 	public:
 		Window();
 		~Window();
+
+		template<class C>void setDevice() {
+			SafeDelete(d);
+			d = new C(this);
+		}
 
 		//窗口标题相关
 		void setWindowTitle(const std::wstring& title);
@@ -41,6 +47,8 @@ namespace ge {
 	private:
 		friend class SimpleGraphicsEngine;
 		friend class Device_dx;
+
+		Device* d;
 
 		Wait_Notify* tmpWaitNotify = nullptr;	//临时的用来等待初始化的，用指针是为了在用完之后不再占用太多内存
 
