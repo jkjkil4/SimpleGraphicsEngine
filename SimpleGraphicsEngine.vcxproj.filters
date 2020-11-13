@@ -53,9 +53,6 @@
     <ClInclude Include="ge\Event.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="ge\Device.h">
-      <Filter>Device</Filter>
-    </ClInclude>
     <ClInclude Include="ge\Size.h">
       <Filter>Class\Struct</Filter>
     </ClInclude>
@@ -68,7 +65,13 @@
     <ClInclude Include="ge\Wait_Notify.h">
       <Filter>Class</Filter>
     </ClInclude>
+    <ClInclude Include="ge\Device.h">
+      <Filter>Device</Filter>
+    </ClInclude>
     <ClInclude Include="ge\Error.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Object.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
