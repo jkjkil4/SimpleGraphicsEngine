@@ -39,6 +39,13 @@ void SimpleGraphicsEngine::postEvent(Window* wnd, EventFunc func, Event* ev, boo
 	lSendEvent.push_back(se);
 }
 
+void SimpleGraphicsEngine::msgBox(const std::wstring& text, HWND hWnd) {
+	MessageBox(hWnd, text.c_str(), _T(""), MB_OK);
+}
+void SimpleGraphicsEngine::msgBox(const std::wstring& title, const std::wstring& text, HWND hWnd) {
+	MessageBox(hWnd, text.c_str(), title.c_str(), MB_OK);
+}
+
 int SimpleGraphicsEngine::exec() {
 	Counter counter;
 	counter.start();

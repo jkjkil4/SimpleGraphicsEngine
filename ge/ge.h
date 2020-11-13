@@ -22,6 +22,9 @@ namespace ge {
 
 		static Rect screenAvailableRect();
 
+		static void msgBox(const std::wstring& text, HWND hWnd = nullptr);
+		static void msgBox(const std::wstring& title, const std::wstring& text, HWND hWnd = nullptr);
+
 		static int exec();
 
 	private:

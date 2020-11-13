@@ -1,8 +1,12 @@
 #pragma once
 
+#include <thread>
 #include "utility_dx.h"
 #include "Device.h"
 #include "vf.h"
+#include "Wait_Notify.h"
+#include "Counter.h"
+#include "Error.h"
 
 namespace ge {
 	class Window;
@@ -16,7 +20,7 @@ namespace ge {
 	{
 	public:
 		Device_dx(Window* wnd);
-		~Device_dx() override = default;
+		~Device_dx() override;
 
 		void begin() override;
 		void end() override;
@@ -29,6 +33,18 @@ namespace ge {
 	private:
 		Window* wnd;
 
+		Wait_Notify wnDevice;
+		std::thread* thDevice;
+		void thDeviceFn();
+		bool needExitThDevice = false;
+		VAR_NL_FUNC(NeedExitThDevice, needExitThDevice, bool,,)
+
+		void resetDevice();
+		std::condition_variable cvReset;
+		std::mutex mtxReset;
+		bool needResetDevice = false;
+
+
 		static LPDirectx g_pD3D;
 		static D3DDISPLAYMODE d3ddm;
 
@@ -37,14 +53,14 @@ namespace ge {
 		D3DCOLOR backgroundColor = D3DCOLOR_XRGB(255, 255, 255);
 		D3DCOLOR globalBlend = D3DCOLOR_XRGB(255, 255, 255);
 
-		LPSprite g_pSprite;			//用于绘制的 Sprite
+		LPSprite g_pSprite;			//用于绘制的Sprite
 
 		void onLostDevice_RenderTexture();
 		void onResetDevice_RenderTexture();
-		LPSurface g_pWindowSurface;	//窗口 Surface
-		LPTexture g_pRenderTexture;	//用于渲染到纹理的 Texture
-		LPSurface g_pRenderSurface;	//纹理的 Surface
-		LPSprite g_pSpriteRender;	//用于渲染到纹理的 Sprite
+		LPSurface g_pWindowSurface;	//窗口Surface
+		LPTexture g_pRenderTexture;	//用于渲染到纹理的 exture
+		LPSurface g_pRenderSurface;	//纹理的Surface
+		LPSprite g_pSpriteRender;	//用于渲染到纹理的Sprite
 
 		//设备Lost和Reset相关
 		void onLostDevice();

@@ -1,5 +1,6 @@
 #include "Device_dx.h"
 #include "Window.h"
+#include "ge.h"
 
 GE_NAMESPACE;
 
@@ -13,26 +14,14 @@ D3DDISPLAYMODE Device_dx::d3ddm = ([](LPDirectx g_pD3D) -> D3DDISPLAYMODE {
 
 Device_dx::Device_dx(Window* wnd) : wnd(wnd)
 {
-	//设备属性
-	ZeroMemory(&d3dpp, sizeof(d3dpp));
-	updatePresentParameters();
+	//dx相关的线程
+	thDevice = new thread(&Device_dx::thDeviceFn, this);
+	wnDevice.wait();
+}
 
-	//创建设备指针
-	g_pD3D->CreateDevice(
-		D3DADAPTER_DEFAULT,		//默认显卡
-		D3DDEVTYPE_HAL,			//硬件抽象层
-		wnd->g_hWnd,					//所依附的窗口（要改造的窗口）
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING,	//顶点软件处理模式
-		&d3dpp,		//设备的能力
-		&g_pDevice	//返回的设备指针
-	);
-
-	//创建Sprite
-	D3DXCreateSprite(g_pDevice, &g_pSprite);
-	D3DXCreateSprite(g_pDevice, &g_pSpriteRender);
-
-	//渲染到纹理 相关
-	onResetDevice_RenderTexture();
+Device_dx::~Device_dx() {
+	setNeedExitThDevice(true);
+	thDevice->join();
 }
 
 
@@ -59,6 +48,70 @@ void Device_dx::updatePresentParameters() {
 	d3dpp.BackBufferWidth = wnd->clientSize.width;
 	d3dpp.BackBufferHeight = wnd->clientSize.height;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;	//翻转效果：抛弃
+}
+
+
+void Device_dx::thDeviceFn() {
+	//设备属性
+	ZeroMemory(&d3dpp, sizeof(d3dpp));
+	updatePresentParameters();
+
+	//创建设备指针
+	g_pD3D->CreateDevice(
+		D3DADAPTER_DEFAULT,		//默认显卡
+		D3DDEVTYPE_HAL,			//硬件抽象层
+		wnd->g_hWnd,					//所依附的窗口（要改造的窗口）
+		D3DCREATE_SOFTWARE_VERTEXPROCESSING,	//顶点软件处理模式
+		&d3dpp,		//设备的能力
+		&g_pDevice	//返回的设备指针
+	);
+
+	//创建Sprite
+	D3DXCreateSprite(g_pDevice, &g_pSprite);
+	D3DXCreateSprite(g_pDevice, &g_pSpriteRender);
+
+	//渲染到纹理 相关
+	onResetDevice_RenderTexture();
+
+	//让主线程继续执行
+	wnDevice.notify();
+
+	//循环直到需要退出
+	while (true) {
+		wnDevice.wait();
+		if (getNeedExitThDevice())
+			break;
+
+		//检查设备状态
+		HRESULT hr = g_pDevice->TestCooperativeLevel();
+
+		//设备能被Reset
+		if (hr == D3DERR_DEVICENOTRESET) {
+			Counter counter;
+			counter.start();
+			int startTime = counter.getTime();
+			onLostDevice();
+			HRESULT hr = g_pDevice->Reset(&d3dpp);
+			if (SUCCEEDED(hr)) {
+				onResetDevice();
+			}
+			else {
+				SimpleGraphicsEngine::msgBox(_T("Error: Cannot Reset D3DDevice"));
+				throw Error(Error::ER_RESETFAILED, _T("Error: Cannot Reset D3DDevice"));
+			}
+		}
+		else if (hr == D3DERR_DEVICELOST) {
+			Sleep(25);
+		}
+
+		onLostDevice();
+		g_pDevice->Reset(&d3dpp);
+		onResetDevice();
+	}
+}
+
+void Device_dx::resetDevice() {
+	wnDevice.notify();
 }
 
 

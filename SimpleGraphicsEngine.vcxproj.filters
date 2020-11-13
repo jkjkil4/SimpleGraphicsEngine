@@ -44,9 +44,6 @@
     <ClInclude Include="ge\Console.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="ge\Wait_Notify.h">
-      <Filter>SimpleGraphicsEngine</Filter>
-    </ClInclude>
     <ClInclude Include="ge\Window.h">
       <Filter>Window</Filter>
     </ClInclude>
@@ -67,6 +64,12 @@
     </ClInclude>
     <ClInclude Include="ge\Rect.h">
       <Filter>Class\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Wait_Notify.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Error.h">
+      <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
