@@ -6,11 +6,12 @@
 
 GE_NAMESPACE;
 
-typedef SimpleGraphicsEngine SGE;
+mutex SGE::mtxML;
 HINSTANCE SGE::g_hInstance = nullptr;
 int SGE::delayMicro;
-std::vector<Window*> SimpleGraphicsEngine::vSendQuitMsgHWnd;
-std::list<SendEvent> SimpleGraphicsEngine::lSendEvent;
+vector<Window*> SGE::vSendQuitMsgHWnd;
+list<SendEvent> SGE::lSendEvent;
+vector<Timer*> SGE::vTimers;
 
 
 SimpleGraphicsEngine::SimpleGraphicsEngine(HINSTANCE hInstance, int _delayMicro)
@@ -53,7 +54,7 @@ int SimpleGraphicsEngine::exec() {
 	Delayer delayer(delayMicro);
 
 	while (Window::wndCount) {
-		Window::mtxMsg.lock();
+		mtxML.lock();
 
 		//发送事件
 		for (SendEvent& se : lSendEvent) {
@@ -66,7 +67,7 @@ int SimpleGraphicsEngine::exec() {
 		for (Window* wnd : vSendQuitMsgHWnd)
 			PostThreadMessage(wnd->threadId, WM_QUIT, 0, 0);
 
-		Window::mtxMsg.unlock();
+		mtxML.unlock();
 
 		//时间控制
 		int spentMicro = (int)((counter.getTime() - startTime) * 1000);

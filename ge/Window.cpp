@@ -7,7 +7,6 @@
 GE_NAMESPACE;
 
 map<HWND, Window*> Window::mapWnd;
-mutex Window::mtxMsg;
 int Window::wndCount = 0;
 
 Window::Window() {
@@ -15,14 +14,12 @@ Window::Window() {
 	thMsg = new thread(&Window::thMsgFn, this);
 	tmpWaitNotify->wait();
 	SafeDelete(tmpWaitNotify);
-	d = new Device(this);
 }
 
 Window::~Window() {
 	close();
 	thMsg->join();
 	SafeDelete(thMsg);
-	SafeDelete(d);
 }
 
 void Window::thMsgFn() {
@@ -38,7 +35,7 @@ void Window::thMsgFn() {
 	wc.hbrBackground = (HBRUSH)GetStockObject(GRAY_BRUSH);
 	wc.hCursor = LoadCursor(0, IDC_ARROW);
 	wc.hIcon = LoadIcon(0, IDI_APPLICATION);
-	wc.hInstance = SimpleGraphicsEngine::g_hInstance;
+	wc.hInstance = SGE::g_hInstance;
 	wc.lpfnWndProc = WndProc;
 	wc.lpszClassName = className.c_str();
 	wc.lpszMenuName = NULL;
@@ -71,14 +68,14 @@ void Window::thMsgFn() {
 		DispatchMessage(&msg);
 	}
 
-	mtxMsg.lock();
-	vector<Window*>& vSendQuitMsgHWnd = SimpleGraphicsEngine::vSendQuitMsgHWnd;
+	SGE::mtxML.lock();
+	vector<Window*>& vSendQuitMsgHWnd = SGE::vSendQuitMsgHWnd;
 	vector<Window*>::iterator iter = std::find(vSendQuitMsgHWnd.begin(), vSendQuitMsgHWnd.end(), this);
 	if(iter != vSendQuitMsgHWnd.end())
 		vSendQuitMsgHWnd.erase(iter);
-	mtxMsg.unlock();
+	SGE::mtxML.unlock();
 
-	UnregisterClass(className.c_str(), SimpleGraphicsEngine::g_hInstance);
+	UnregisterClass(className.c_str(), SGE::g_hInstance);
 	wndCount--;
 }
 
@@ -138,25 +135,23 @@ LRESULT CALLBACK Window::procWndMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 		RECT rect;
 		GetClientRect(g_hWnd, &rect);
 		clientSize = Size(rect.right - rect.left, rect.bottom - rect.top);
-		mtxMsg.lock();
-		SimpleGraphicsEngine::postEvent(this, (EventFunc)&Window::resizeEvent, new ResizeEvent(clientSize), true);
-		mtxMsg.unlock();
+		SGE::mtxML.lock();
+		SGE::postEvent(this, (EventFunc)&Window::resizeEvent, new ResizeEvent(clientSize), true);
+		SGE::mtxML.unlock();
 		break;
 	case WM_CLOSE:
 		//销毁窗口
 		DestroyWindow(hWnd);
-		mtxMsg.lock();
+		SGE::mtxML.lock();
 		mapWnd.erase(g_hWnd);
-		mtxMsg.unlock();
+		SGE::mtxML.unlock();
 		break;
 	case WM_DESTROY:
 		//退出消息循环
-		mtxMsg.lock();
-		SimpleGraphicsEngine::vSendQuitMsgHWnd.push_back(this);
-		mtxMsg.unlock();
+		SGE::mtxML.lock();
+		SGE::vSendQuitMsgHWnd.push_back(this);
+		SGE::mtxML.unlock();
 		break;
 	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
-
-void Window::resizeEvent(ResizeEvent* ev) { cout << "RESIZE" << endl; }

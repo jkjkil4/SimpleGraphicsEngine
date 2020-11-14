@@ -163,6 +163,7 @@
     <ClInclude Include="ge\Object.h" />
     <ClInclude Include="ge\Point.h" />
     <ClInclude Include="ge\Rect.h" />
+    <ClInclude Include="ge\Timer.h" />
     <ClInclude Include="ge\utility.h" />
     <ClInclude Include="ge\Window.h" />
     <ClInclude Include="ge\Wait_Notify.h" />
@@ -171,6 +172,7 @@
   <ItemGroup>
     <ClCompile Include="ge\Device_dx.cpp" />
     <ClCompile Include="ge\ge.cpp" />
+    <ClCompile Include="ge\Timer.cpp" />
     <ClCompile Include="ge\utility_dx.h" />
     <ClCompile Include="ge\Window.cpp" />
   </ItemGroup>

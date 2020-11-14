@@ -74,6 +74,9 @@
     <ClInclude Include="ge\header.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="ge\Timer.h">
+      <Filter>Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ge\ge.cpp">
@@ -87,6 +90,9 @@
     </ClCompile>
     <ClCompile Include="ge\Device_dx.cpp">
       <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="ge\Timer.cpp">
+      <Filter>Class</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

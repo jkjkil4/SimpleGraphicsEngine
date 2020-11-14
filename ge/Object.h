@@ -6,13 +6,12 @@
 
 namespace ge {
 	class Object;
-	typedef void(Object::* ObjFn)();
 
 	class Object
 	{
 	public:
 		virtual ~Object() {
-			for (auto pair : vConnectedSignals) {
+			for (auto pair : vConnectedSignals) {	//移除信号与槽
 				pair.first->removeSlots(this);
 			}
 		}
@@ -23,7 +22,7 @@ namespace ge {
 			virtual void removeSlots(Object* obj) = 0;
 		};
 
-		template<typename Fn>	//T: 槽函数类型，用于自定义参数
+		template<typename Fn>	//Fn: 槽函数类型，用于自定义参数
 		class Signal : public SignalBase
 		{
 		public:
@@ -71,8 +70,8 @@ namespace ge {
 			}
 		};
 
-		template<typename Fn>
-		static inline void connect(Signal<Fn> *signal, Object* sltObj, Fn sltFn) {		//绑定信号与槽
+		template<typename Fn, class Obj>
+		static inline void connect(Signal<Fn> *signal, Obj* sltObj, Fn sltFn) {		//绑定信号与槽
 			signal->addSlot(sltObj, sltFn);
 		}
 
@@ -86,4 +85,5 @@ namespace ge {
 	};
 }
 
+//用于发出信号的宏定义
 #define EMIT(signal, ...) for(auto& slot : (signal)->vSlots) (slot.obj->*slot.fn)(__VA_ARGS__)

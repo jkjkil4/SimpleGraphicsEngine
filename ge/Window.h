@@ -1,11 +1,12 @@
 #pragma once
 
-#include "utility.h"
-#include "Wait_Notify.h"
-#include "header.h"
 #include <thread>
 #include <map>
 #include <string>
+#include "utility.h"
+#include "Wait_Notify.h"
+#include "header.h"
+#include "Object.h"
 #include "Rect.h"
 #include "Point.h"
 #include "Size.h"
@@ -14,16 +15,11 @@ namespace ge {
 	struct ResizeEvent;
 	class Device;
 
-	class Window
+	class Window : public Object
 	{
 	public:
 		Window();
-		~Window();
-
-		template<class C>void setDevice() {
-			SafeDelete(d);
-			d = new C(this);
-		}
+		~Window() override;
 
 		//窗口标题相关
 		void setWindowTitle(const std::wstring& title);
@@ -48,8 +44,6 @@ namespace ge {
 		friend class SimpleGraphicsEngine;
 		friend class Device_dx;
 
-		Device* d;
-
 		Wait_Notify* tmpWaitNotify = nullptr;	//临时的用来等待初始化的，用指针是为了在用完之后不再占用太多内存
 
 		HWND g_hWnd = nullptr;	//窗口句柄
@@ -58,7 +52,6 @@ namespace ge {
 
 		//窗口消息处理相关
 		static std::map<HWND, Window*> mapWnd;	//用来对应 (HWND - Window*) 的map，以便在WndProc中调用procWndMessage
-		static std::mutex mtxMsg;	//消息处理时的线程锁
 		static int wndCount;	//窗口数量
 		static LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);	//公用的消息处理函数
 		LRESULT CALLBACK procWndMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);	//各自的消息处理函数
@@ -68,7 +61,7 @@ namespace ge {
 		void thMsgFn();	//消息处理线程的函数
 
 		//事件相关
-		virtual void resizeEvent(ResizeEvent* ev);
+		virtual void resizeEvent(ResizeEvent* ev) {}
 
 		//主循环相关
 		virtual void onLogic() {}
