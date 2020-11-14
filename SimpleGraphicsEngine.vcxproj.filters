@@ -38,9 +38,6 @@
     <ClInclude Include="ge\utility.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="ge\vf.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="ge\Console.h">
       <Filter>Class</Filter>
     </ClInclude>
@@ -73,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="ge\Object.h">
       <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\header.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -32,3 +32,21 @@
 #define VAR_FUNC(FuncName, varName, Type, Const, Quote)\
 	VAR_GET_FUNC(FuncName, varName, Type)\
 	VAR_SET_FUNC(FuncName, varName, Type, Const, Quote)
+
+
+#define GE_NAMESPACE using namespace ge; using namespace std
+
+namespace ge {
+	template<typename T>inline void SafeDelete(T*& t) {
+		if (t) {
+			delete t;
+			t = nullptr;
+		}
+	}
+	template<typename T>inline void SafeDeleteArray(T*& t) {
+		if (t) {
+			delete[] t;
+			t = nullptr;
+		}
+	}
+}
