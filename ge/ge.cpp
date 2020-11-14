@@ -3,6 +3,7 @@
 #include "Delayer.h"
 #include "Console.h"
 #include "Event.h"
+#include "Timer.h"
 
 GE_NAMESPACE;
 
@@ -53,6 +54,8 @@ int SimpleGraphicsEngine::exec() {
 	double startTime = counter.getTime();
 	Delayer delayer(delayMicro);
 
+	double timerMsec = 0;
+
 	while (Window::wndCount) {
 		mtxML.lock();
 
@@ -63,6 +66,13 @@ int SimpleGraphicsEngine::exec() {
 		}
 		lSendEvent.clear();
 
+		//调用定时器
+		for (Timer* timer : vTimers) {
+			if (timer->isStart) {
+				//TODO: ...
+			}
+		}
+
 		//使得需要退出消息循环的窗口退出消息循环
 		for (Window* wnd : vSendQuitMsgHWnd)
 			PostThreadMessage(wnd->threadId, WM_QUIT, 0, 0);
@@ -72,8 +82,11 @@ int SimpleGraphicsEngine::exec() {
 		//时间控制
 		int spentMicro = (int)((counter.getTime() - startTime) * 1000);
 		delayer.delay(delayMicro - spentMicro);
-		cout << counter.getTime() - startTime << endl;
-		startTime = counter.getTime();
+
+		double curTime = counter.getTime();
+		timerMsec = curTime - startTime;
+		//cout << counter.getTime() - startTime << endl;
+		startTime = curTime;
 	}
 
 	cout << "Quit" << endl;

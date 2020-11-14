@@ -7,5 +7,13 @@ namespace ge {
 	{
 	public:
 		Timer();
+		~Timer() override;
+
+		Signal<ObjFn> timeout;
+
+	private:
+		friend class SimpleGraphicsEngine;
+
+		bool isStart = false;
 	};
 }

@@ -10,6 +10,8 @@ namespace ge {
 	class Object
 	{
 	public:
+		typedef void(Object::*ObjFn)();
+
 		virtual ~Object() {
 			for (auto pair : vConnectedSignals) {	//ÒÆ³ýÐÅºÅÓë²Û
 				pair.first->removeSlots(this);
