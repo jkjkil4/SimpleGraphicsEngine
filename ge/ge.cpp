@@ -69,7 +69,19 @@ int SimpleGraphicsEngine::exec() {
 		//调用定时器
 		for (Timer* timer : vTimers) {
 			if (timer->isStart) {
-				//TODO: ...
+				timer->lastMsec -= timerMsec;
+				if (timer->lastMsec <= 0) {	//如果达到定时时间
+					if (timer->isSingleShot) {	//如果为单次触发，则停止计时器并触发timeout
+						timer->stop();
+						EMIT(&timer->timeout);
+					}
+					else {	//如果不为单次触发
+						while (timer->lastMsec <= 0) {
+							timer->lastMsec += timer->delayMsec;
+							EMIT(&timer->timeout);
+						}
+					}
+				}
 			}
 		}
 
