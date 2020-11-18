@@ -168,6 +168,7 @@
     <ClInclude Include="ge\Window.h" />
     <ClInclude Include="ge\Wait_Notify.h" />
     <ClInclude Include="ge\Size.h" />
+    <ClInclude Include="ge\Window_dx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ge\Device_dx.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="ge\Timer.cpp" />
     <ClCompile Include="ge\utility_dx.h" />
     <ClCompile Include="ge\Window.cpp" />
+    <ClCompile Include="ge\Window_dx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

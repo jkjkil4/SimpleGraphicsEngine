@@ -7,6 +7,8 @@
 
 GE_NAMESPACE;
 
+SGE::Signal<SGE::ObjFn> SGE::exited;
+
 mutex SGE::mtxML;
 HINSTANCE SGE::g_hInstance = nullptr;
 int SGE::delayMicro;
@@ -103,6 +105,8 @@ int SimpleGraphicsEngine::exec() {
 
 	cout << "Quit" << endl;
 	Sleep(1000);
+
+	EMIT(&exited);
 
 #ifdef CONSOLE
 	Console::free();

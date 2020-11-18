@@ -11,10 +11,6 @@
 namespace ge {
 	class Window;
 
-	/*
-		对dx的封装
-		使用 gloDestroy() 全局销毁 (指Release了g_pD3D)
-	*/
 	class Device_dx : public Device
 	{
 		/*
@@ -31,7 +27,7 @@ namespace ge {
 		Device_dx(Window* wnd);
 		~Device_dx() override;
 
-		static void gloDestroy();
+		void gloDestroy();
 
 		void begin() override;
 		void end() override;

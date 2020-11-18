@@ -7,7 +7,8 @@ namespace ge {
 
 	struct Event
 	{
-		enum class Type { Resize };
+		enum class Type { None, Resize, Paint } type;
+		Event(Type type = Type::None) : type(type) {}
 	};
 
 	typedef void(Window::* EventFunc)(Event*);
@@ -18,7 +19,12 @@ namespace ge {
 
 	struct ResizeEvent : public Event
 	{
-		ResizeEvent(const Size& size) : size(size) {}
+		ResizeEvent(const Size& size) : Event(Type::Resize), size(size) {}
 		Size size;
+	};
+
+	struct PaintEvent : public Event
+	{
+		PaintEvent() : Event(Type::Paint) {}
 	};
 }

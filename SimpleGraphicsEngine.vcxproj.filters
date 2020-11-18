@@ -24,6 +24,9 @@
     <Filter Include="Class\Struct">
       <UniqueIdentifier>{7a3bca97-eb2e-43c9-858c-0310c0cb901b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\Timer">
+      <UniqueIdentifier>{420339d0-e45f-4e72-ad77-8a4f1b4a24f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ge\ge.h">
@@ -68,13 +71,16 @@
     <ClInclude Include="ge\Error.h">
       <Filter>Class</Filter>
     </ClInclude>
-    <ClInclude Include="ge\Object.h">
-      <Filter>Class</Filter>
-    </ClInclude>
     <ClInclude Include="ge\header.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="ge\Window_dx.h">
+      <Filter>Window</Filter>
+    </ClInclude>
     <ClInclude Include="ge\Timer.h">
+      <Filter>Class\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Object.h">
       <Filter>Class</Filter>
     </ClInclude>
   </ItemGroup>
@@ -91,8 +97,11 @@
     <ClCompile Include="ge\Device_dx.cpp">
       <Filter>Device</Filter>
     </ClCompile>
+    <ClCompile Include="ge\Window_dx.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
     <ClCompile Include="ge\Timer.cpp">
-      <Filter>Class</Filter>
+      <Filter>Class\Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

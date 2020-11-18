@@ -22,6 +22,7 @@ namespace ge {
 		{
 		public:
 			virtual void removeSlots(Object* obj) = 0;
+			virtual void removeSlots(ObjFn fn) = 0;
 		};
 
 		template<typename Fn>	//Fn: 槽函数类型，用于自定义参数
@@ -61,6 +62,15 @@ namespace ge {
 					}
 				}
 			}
+			void removeSlots(ObjFn fn) {	//移除指定函数的信号与槽
+				for (int i = vSlots.size() - 1; i >= 0; i--) {
+					Slot& slot = vSlots[i];
+					if ((ObjFn)slot.fn == fn) {
+						vSlots.erase(vSlots.begin() + i);
+						decreaseCount(slot.obj);
+					}
+				}
+			}
 			void increaseCount(Object* obj) {
 				obj->vConnectedSignals[this]++;
 			}
@@ -80,6 +90,16 @@ namespace ge {
 		template<typename Fn>
 		static inline void disconnect(Signal<Fn> *signal, Object* sltObj, Fn sltFn) {		//解绑信号与槽
 			signal->removeSlot(sltObj, sltFn);
+		}
+
+		template<typename Fn>
+		static inline void disconnectAll(Signal<Fn> *signal, Object* sltObj) {	//解绑指定obj的所有槽
+			signal->removeSlots(sltObj);
+		}
+
+		template<typename Fn>
+		static inline void disconnectAll(Signal<Fn> *signal, Fn fn) {	//解绑指定槽
+			signal->removeSlots(fn);
 		}
 
 	private:

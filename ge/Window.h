@@ -13,6 +13,7 @@
 
 namespace ge {
 	struct ResizeEvent;
+	struct PaintEvent;
 	class Device;
 
 	class Window : public Object
@@ -61,10 +62,10 @@ namespace ge {
 		void thMsgFn();	//消息处理线程的函数
 
 		//事件相关
-		virtual void resizeEvent(ResizeEvent* ev) {}
+		virtual void resizeEvent(ResizeEvent*) {}
+		virtual void paintEvent(PaintEvent*) {}
 
-		//主循环相关
-		virtual void onLogic() {}
-		virtual void onRender() {}
+		//绘制相关
+		void update();	//发送paintEvent
 	};
 }

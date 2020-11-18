@@ -17,6 +17,8 @@ Device_dx::Device_dx(Window* wnd) : Device(wnd)
 	//dx相关的线程
 	thDevice = new thread(&Device_dx::thDeviceFn, this);
 	wnDevice.wait();
+
+	connect(&SGE::exited, this, (ObjFn)&Device_dx::gloDestroy);
 }
 
 Device_dx::~Device_dx() {
@@ -35,6 +37,7 @@ Device_dx::~Device_dx() {
 
 void Device_dx::gloDestroy() {
 	g_pD3D->Release();
+	disconnectAll(&SGE::exited, (ObjFn)&Device_dx::gloDestroy);
 }
 
 

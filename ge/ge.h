@@ -29,6 +29,8 @@ namespace ge {
 
 		static int exec();
 
+		static Signal<ObjFn> exited;
+
 	private:
 		friend class Window;
 		friend class Timer;

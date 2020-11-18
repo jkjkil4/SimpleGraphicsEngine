@@ -155,3 +155,7 @@ LRESULT CALLBACK Window::procWndMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
+
+void Window::update() {
+	SGE::postEvent(this, (EventFunc)&Window::paintEvent, new PaintEvent, true);
+}

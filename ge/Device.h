@@ -1,18 +1,19 @@
 #pragma once
 
 #include "utility.h"
+#include "Object.h"
 
 namespace ge {
 	class Window;
 
-	class Device
+	class Device : public Object
 	{
 	public:
 		Device(Window* wnd) : wnd(wnd) {}
-		virtual ~Device() = default;
+		~Device() override = default;
 
-		virtual void begin() {}
-		virtual void end() {}
+		virtual void begin() = 0;
+		virtual void end() = 0;
 
 	private:
 		friend class Device_dx;
