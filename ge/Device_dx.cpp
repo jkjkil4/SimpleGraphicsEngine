@@ -12,7 +12,7 @@ D3DDISPLAYMODE Device_dx::d3ddm = ([](LPDirectx g_pD3D) -> D3DDISPLAYMODE {
 	return d3ddm;
 	})(g_pD3D);
 
-Device_dx::Device_dx(Window* wnd) : Device(wnd)
+Device_dx::Device_dx(Window* wnd) : wnd(wnd)
 {
 	//dx相关的线程
 	thDevice = new thread(&Device_dx::thDeviceFn, this);

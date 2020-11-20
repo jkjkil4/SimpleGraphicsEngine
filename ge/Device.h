@@ -15,6 +15,8 @@ namespace ge {
 		virtual void begin() = 0;
 		virtual void end() = 0;
 
+		
+
 	private:
 		friend class Device_dx;
 

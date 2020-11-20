@@ -35,6 +35,7 @@
 
 
 #define GE_NAMESPACE using namespace ge; using namespace std
+#define repeat(i, n) for(int i = 0; i < n; i++)
 
 namespace ge {
 	template<typename T>inline void SafeDelete(T*& t) {

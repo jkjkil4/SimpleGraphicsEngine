@@ -151,7 +151,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ge\Device.h" />
     <ClInclude Include="ge\Device_dx.h" />
     <ClInclude Include="ge\Console.h" />
     <ClInclude Include="ge\Counter.h" />
@@ -168,7 +167,7 @@
     <ClInclude Include="ge\Window.h" />
     <ClInclude Include="ge\Wait_Notify.h" />
     <ClInclude Include="ge\Size.h" />
-    <ClInclude Include="ge\Window_dx.h" />
+    <ClInclude Include="ge\StaticImage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ge\Device_dx.cpp" />
@@ -176,7 +175,7 @@
     <ClCompile Include="ge\Timer.cpp" />
     <ClCompile Include="ge\utility_dx.h" />
     <ClCompile Include="ge\Window.cpp" />
-    <ClCompile Include="ge\Window_dx.cpp" />
+    <ClCompile Include="ge\StaticImage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

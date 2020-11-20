@@ -2,16 +2,16 @@
 
 #include <thread>
 #include "utility_dx.h"
-#include "Device.h"
 #include "header.h"
 #include "Wait_Notify.h"
 #include "Counter.h"
 #include "Error.h"
+#include "Object.h"
 
 namespace ge {
 	class Window;
 
-	class Device_dx : public Device
+	class Device_dx : public Object
 	{
 		/*
 			需要在Reset设备时管理的东西
@@ -29,8 +29,10 @@ namespace ge {
 
 		void gloDestroy();
 
-		void begin() override;
-		void end() override;
+		void begin();
+		void end();
+
+		void drawTexture();
 
 		void updatePresentParameters();
 
@@ -38,6 +40,8 @@ namespace ge {
 		VAR_FUNC(GlobalBlend, globalBlend, D3DCOLOR,,)
 
 	private:
+		friend class StaticImage;
+
 		Wait_Notify wnDevice;
 		std::thread* thDevice;
 		void thDeviceFn();
@@ -49,7 +53,7 @@ namespace ge {
 		std::mutex mtxReset;
 		bool needResetDevice = false;
 
-
+		Window* wnd;
 		static LPDirectx g_pD3D;
 		static D3DDISPLAYMODE d3ddm;
 

@@ -120,6 +120,11 @@ void Window::close() {
 	SendMessage(g_hWnd, WM_CLOSE, 0, 0);
 }
 
+void Window::update() {
+	SGE::postEvent(this, (EventFunc)&Window::paintEvent, new PaintEvent, true);
+}
+
+
 
 LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	auto iter = mapWnd.find(hWnd);
@@ -154,8 +159,4 @@ LRESULT CALLBACK Window::procWndMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 		break;
 	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
-}
-
-void Window::update() {
-	SGE::postEvent(this, (EventFunc)&Window::paintEvent, new PaintEvent, true);
 }

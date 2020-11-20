@@ -41,6 +41,16 @@ namespace ge {
 		//关闭窗口
 		void close();
 
+		//事件相关
+		virtual void resizeEvent(ResizeEvent*) {}
+		virtual void paintEvent(PaintEvent*) {}
+
+		//绘制相关
+		void update();	//发送paintEvent
+
+		//其他
+		VAR_GET_FUNC(Handle, g_hWnd, HWND)
+
 	private:
 		friend class SimpleGraphicsEngine;
 		friend class Device_dx;
@@ -60,12 +70,5 @@ namespace ge {
 		DWORD threadId = 0;		//消息处理线程id
 		std::wstring className;	//窗口的className
 		void thMsgFn();	//消息处理线程的函数
-
-		//事件相关
-		virtual void resizeEvent(ResizeEvent*) {}
-		virtual void paintEvent(PaintEvent*) {}
-
-		//绘制相关
-		void update();	//发送paintEvent
 	};
 }

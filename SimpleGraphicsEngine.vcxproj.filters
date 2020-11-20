@@ -27,31 +27,28 @@
     <Filter Include="Class\Timer">
       <UniqueIdentifier>{420339d0-e45f-4e72-ad77-8a4f1b4a24f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\Base">
+      <UniqueIdentifier>{6887e01e-e3aa-4f90-a485-4cafb216ef03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Graphics">
+      <UniqueIdentifier>{fa428a9c-b71d-40e9-a447-21df594d4a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Graphics\Image">
+      <UniqueIdentifier>{82efac0a-dff5-46f7-b62d-d750cb831485}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ge\ge.h">
       <Filter>SimpleGraphicsEngine</Filter>
     </ClInclude>
-    <ClInclude Include="ge\Counter.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="ge\Delayer.h">
-      <Filter>Class</Filter>
-    </ClInclude>
     <ClInclude Include="ge\utility.h">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="ge\Console.h">
-      <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="ge\Window.h">
       <Filter>Window</Filter>
     </ClInclude>
     <ClInclude Include="ge\Device_dx.h">
       <Filter>Device</Filter>
-    </ClInclude>
-    <ClInclude Include="ge\Event.h">
-      <Filter>Class</Filter>
     </ClInclude>
     <ClInclude Include="ge\Size.h">
       <Filter>Class\Struct</Filter>
@@ -62,26 +59,35 @@
     <ClInclude Include="ge\Rect.h">
       <Filter>Class\Struct</Filter>
     </ClInclude>
-    <ClInclude Include="ge\Wait_Notify.h">
-      <Filter>Class</Filter>
-    </ClInclude>
-    <ClInclude Include="ge\Device.h">
-      <Filter>Device</Filter>
-    </ClInclude>
-    <ClInclude Include="ge\Error.h">
-      <Filter>Class</Filter>
-    </ClInclude>
     <ClInclude Include="ge\header.h">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="ge\Window_dx.h">
-      <Filter>Window</Filter>
     </ClInclude>
     <ClInclude Include="ge\Timer.h">
       <Filter>Class\Timer</Filter>
     </ClInclude>
+    <ClInclude Include="ge\Console.h">
+      <Filter>Class\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Counter.h">
+      <Filter>Class\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Delayer.h">
+      <Filter>Class\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Error.h">
+      <Filter>Class\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Event.h">
+      <Filter>Class\Base</Filter>
+    </ClInclude>
     <ClInclude Include="ge\Object.h">
-      <Filter>Class</Filter>
+      <Filter>Class\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Wait_Notify.h">
+      <Filter>Class\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\StaticImage.h">
+      <Filter>Class\Graphics\Image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -97,11 +103,11 @@
     <ClCompile Include="ge\Device_dx.cpp">
       <Filter>Device</Filter>
     </ClCompile>
-    <ClCompile Include="ge\Window_dx.cpp">
-      <Filter>Window</Filter>
-    </ClCompile>
     <ClCompile Include="ge\Timer.cpp">
       <Filter>Class\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="ge\StaticImage.cpp">
+      <Filter>Class\Graphics\Image</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
