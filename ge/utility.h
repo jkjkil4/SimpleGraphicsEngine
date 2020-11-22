@@ -7,3 +7,6 @@
 
 #define _T TEXT
 
+inline RECT mkRect(LONG x, LONG y, LONG w, LONG h) {
+	return RECT{ x, y, x + w, y + h };
+}

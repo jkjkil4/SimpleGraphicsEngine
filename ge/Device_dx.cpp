@@ -68,7 +68,58 @@ void Device_dx::end() {
 }
 
 void Device_dx::drawImage(const Image_dx& image, const PointF& pos, D3DCOLOR blendColor) {
+	checkRenderType(RenderType::Sprite);
 	g_pSprite->Draw(image.g_pTexture, nullptr, nullptr, &D3DXVECTOR3(pos.x, pos.y, 0), blendColor);
+}
+
+void Device_dx::drawRect(int x, int y, int w, int h, DWORD col) {
+	drawRect(mkRect(x, y, w, h), col, col, col, col);
+}
+
+void Device_dx::drawRect(int x, int y, int w, int h, DWORD col1, DWORD col2, DWORD col3, DWORD col4) {
+	drawRect(mkRect(x, y, w, h), col1, col2, col3, col4);
+}
+
+void Device_dx::drawRect(RECT rect, DWORD col) {
+	drawRect(rect, col, col, col, col);
+}
+void Device_dx::drawRect(RECT rect, DWORD col1, DWORD col2, DWORD col3, DWORD col4) {
+	Vertex* vertexs;
+	vbRectangle->Lock(0, 0, (void**)&vertexs, 0);
+	vertexs[0] = Vertex{ (float)rect.left, (float)rect.top, 0.0f, 1.0f, col1 };
+	vertexs[1] = Vertex{ (float)rect.right, (float)rect.top, 0.0f, 1.0f, col2 };
+	vertexs[2] = Vertex{ (float)rect.right, (float)rect.bottom, 0.0f, 1.0f, col3 };
+	vertexs[3] = Vertex{ (float)rect.left, (float)rect.bottom, 0.0f, 1.0f, col4 };
+	vbRectangle->Unlock();
+
+	g_pDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+	g_pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
+	g_pDevice->SetStreamSource(0, vbRectangle, 0, sizeof(Vertex));
+	g_pDevice->SetIndices(ibRectangle);
+
+	checkRenderType(RenderType::Device);
+	g_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 4, 0, 2);
+}
+
+void Device_dx::drawBorder(int x, int y, int w, int h, int size, DWORD col) {
+	//左侧
+	drawRect(x, y, size, h, col);
+	//右侧
+	drawRect(x + w - size, y, size, h, col);
+	//顶部
+	drawRect(x + size, y, w - 2 * size, size, col);
+	//底部
+	drawRect(x + size, y + h - size, w - 2 * size, size, col);
+}
+
+void Device_dx::checkRenderType(RenderType rt) {
+	if (rt != renderType) {
+		if (renderType == RenderType::Sprite && rt == RenderType::Device) {
+			g_pSprite->End();
+			g_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+		}
+		renderType = rt;
+	}
 }
 
 
@@ -101,6 +152,21 @@ void Device_dx::thDeviceFn() {
 
 	//渲染到纹理 相关
 	onResetDevice_RenderTexture();
+
+	//初始化顶点
+	g_pDevice->CreateVertexBuffer(4 * sizeof(Vertex), 0, D3DFVF_XYZRHW | D3DFVF_DIFFUSE,
+		D3DPOOL_MANAGED, &vbRectangle, nullptr);
+	g_pDevice->CreateIndexBuffer(6 * sizeof(WORD), D3DUSAGE_WRITEONLY,
+		D3DFMT_INDEX16, D3DPOOL_MANAGED, &ibRectangle, 0);
+	WORD* index = nullptr;
+	ibRectangle->Lock(0, 0, (void**)&index, 0);
+	index[0] = 0;
+	index[1] = 1;
+	index[2] = 2;
+	index[3] = 0;
+	index[4] = 2;
+	index[5] = 3;
+	ibRectangle->Unlock();
 
 	//让主线程继续执行
 	wnDevice.notify();

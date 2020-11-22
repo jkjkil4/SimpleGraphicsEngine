@@ -36,6 +36,12 @@ namespace ge {
 
 		void drawImage(const Image_dx& image, const PointF& pos, D3DCOLOR blendColor = D3DCOLOR_XRGB(255, 255, 255));	//绘制图像
 
+		void drawRect(int x, int y, int w, int h, DWORD col);
+		void drawRect(int x, int y, int w, int h, DWORD col1, DWORD col2, DWORD col3, DWORD col4);
+		void drawRect(RECT rect, DWORD col);
+		void drawRect(RECT rect, DWORD col1, DWORD col2, DWORD col3, DWORD col4);
+		void drawBorder(int x, int y, int w, int h, int size, DWORD col = 0xff000000);
+
 		void updatePresentParameters();		//根据窗口大小更新d3dpp
 
 		Signal<ObjFn> releasingDevice;	//当release设备时发出的信号
@@ -66,7 +72,13 @@ namespace ge {
 		D3DCOLOR backgroundColor = D3DCOLOR_XRGB(0, 0, 0);		//clear时的颜色
 		D3DCOLOR globalBlend = D3DCOLOR_XRGB(255, 255, 255);	//全局混色
 
+		LPVertexBuffer vbRectangle;
+		LPIndexBuffer ibRectangle;
+
 		LPSprite g_pSprite;			//用于绘制的Sprite
+
+		enum class RenderType { Device, Sprite } renderType = RenderType::Device;
+		void checkRenderType(RenderType rt);
 
 		void onLostDevice_RenderTexture();
 		void onResetDevice_RenderTexture();
