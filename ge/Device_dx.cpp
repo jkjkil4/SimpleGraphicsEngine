@@ -1,6 +1,7 @@
 #include "Device_dx.h"
 #include "Window.h"
 #include "ge.h"
+#include "Image_dx.h"
 
 GE_NAMESPACE;
 
@@ -14,10 +15,10 @@ D3DDISPLAYMODE Device_dx::d3ddm = ([](LPDirectx g_pD3D) -> D3DDISPLAYMODE {
 
 Device_dx::Device_dx(Window* wnd) : wnd(wnd)
 {
+	ZeroMemory(&d3dpp, sizeof(d3dpp));
 	//dx相关的线程
 	thDevice = new thread(&Device_dx::thDeviceFn, this);
 	wnDevice.wait();
-
 	connect(&SGE::exited, this, (ObjFn)&Device_dx::gloDestroy);
 }
 
@@ -42,19 +43,32 @@ void Device_dx::gloDestroy() {
 
 
 void Device_dx::begin() {
+	g_pSprite->End();
 	g_pDevice->Clear(0, nullptr, D3DCLEAR_TARGET, backgroundColor, 1.0f, 0);	//用bgColor填充
+	g_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
 }
 
 void Device_dx::end() {
 	g_pSprite->End();	//结束Sprite的绘制
 
+	g_pDevice->SetRenderTarget(0, g_pWindowSurface);
 	g_pDevice->BeginScene();	//获取绘制权限
 	g_pSpriteRender->Begin(0);
 	g_pSpriteRender->Draw(g_pRenderTexture, nullptr, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 0, 0), globalBlend);//将纹理绘制到窗口
 	g_pSpriteRender->End();
 	g_pDevice->EndScene();		//结束绘制
 
+	HRESULT hr = g_pDevice->Present(nullptr, nullptr, 0, nullptr);	//前后台缓冲区交换
+	if (FAILED(hr) && !wnd->getClosed()) {
+		resetDevice();
+		return;
+	}
+	g_pDevice->SetRenderTarget(0, g_pRenderSurface);
 	g_pSprite->Begin(D3DXSPRITE_ALPHABLEND);	//开始Sprite的绘制
+}
+
+void Device_dx::drawImage(const Image_dx& image, const PointF& pos, D3DCOLOR blendColor) {
+	g_pSprite->Draw(image.g_pTexture, nullptr, nullptr, &D3DXVECTOR3(pos.x, pos.y, 0), blendColor);
 }
 
 
@@ -69,7 +83,6 @@ void Device_dx::updatePresentParameters() {
 
 void Device_dx::thDeviceFn() {
 	//设备属性
-	ZeroMemory(&d3dpp, sizeof(d3dpp));
 	updatePresentParameters();
 
 	//创建设备指针
@@ -112,7 +125,7 @@ void Device_dx::thDeviceFn() {
 				onResetDevice();
 			}
 			else {
-				SimpleGraphicsEngine::msgBox(_T("Error: Cannot Reset D3DDevice"));
+				SGE::msgBox(_T("Error: Cannot Reset D3DDevice"));
 				//throw Error(Error::ER_RESETFAILED, _T("Error: Cannot Reset D3DDevice"));
 			}
 		}
@@ -120,24 +133,25 @@ void Device_dx::thDeviceFn() {
 			Sleep(25);
 		}
 
-		onLostDevice();
-		g_pDevice->Reset(&d3dpp);
-		onResetDevice();
+		setIsResettingDevice(false);
 	}
 }
 
 void Device_dx::resetDevice() {
+	setIsResettingDevice(true);
 	wnDevice.notify();
 }
 
 
 void Device_dx::onLostDevice() {
+	EMIT(&releasingDevice);
 	onLostDevice_RenderTexture();
 	g_pSprite->OnLostDevice();
 	g_pSpriteRender->OnLostDevice();
 }
 
 void Device_dx::onResetDevice() {
+	EMIT(&resettingDevice);
 	onResetDevice_RenderTexture();
 	g_pSprite->OnResetDevice();
 	g_pSpriteRender->OnResetDevice();

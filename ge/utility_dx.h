@@ -1,3 +1,5 @@
+#pragma once
+
 #include "utility.h"
 
 #include <d3d9.h>

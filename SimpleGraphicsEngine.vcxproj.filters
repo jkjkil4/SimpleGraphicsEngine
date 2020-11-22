@@ -86,7 +86,7 @@
     <ClInclude Include="ge\Wait_Notify.h">
       <Filter>Class\Base</Filter>
     </ClInclude>
-    <ClInclude Include="ge\StaticImage.h">
+    <ClInclude Include="ge\Image_dx.h">
       <Filter>Class\Graphics\Image</Filter>
     </ClInclude>
   </ItemGroup>
@@ -106,7 +106,7 @@
     <ClCompile Include="ge\Timer.cpp">
       <Filter>Class\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="ge\StaticImage.cpp">
+    <ClCompile Include="ge\Image_dx.cpp">
       <Filter>Class\Graphics\Image</Filter>
     </ClCompile>
   </ItemGroup>

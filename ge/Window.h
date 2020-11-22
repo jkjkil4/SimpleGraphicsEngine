@@ -50,6 +50,8 @@ namespace ge {
 
 		//其他
 		VAR_GET_FUNC(Handle, g_hWnd, HWND)
+		std::mutex mtxClosed;
+		VAR_NL_GET_FUNC(mtxClosed, Closed, closed, bool)
 
 	private:
 		friend class SimpleGraphicsEngine;
@@ -60,6 +62,8 @@ namespace ge {
 		HWND g_hWnd = nullptr;	//窗口句柄
 		std::wstring wndTitle = _T("SGE");	//窗口标题
 		Size clientSize;	//窗口画面的区域
+		bool closed = false;
+		VAR_NL_SET_FUNC(mtxClosed, Closed, closed, bool,,)
 
 		//窗口消息处理相关
 		static std::map<HWND, Window*> mapWnd;	//用来对应 (HWND - Window*) 的map，以便在WndProc中调用procWndMessage

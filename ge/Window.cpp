@@ -146,6 +146,7 @@ LRESULT CALLBACK Window::procWndMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 		break;
 	case WM_CLOSE:
 		//Ïú»Ù´°¿Ú
+		setClosed(true);
 		DestroyWindow(hWnd);
 		SGE::mtxML.lock();
 		mapWnd.erase(g_hWnd);
