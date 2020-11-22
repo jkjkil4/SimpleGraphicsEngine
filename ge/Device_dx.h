@@ -31,15 +31,15 @@ namespace ge {
 
 		void gloDestroy();
 
-		void begin();
-		void end();
+		void begin();	//开始主绘制
+		void end();		//结束主绘制
 
-		void drawImage(const Image_dx& image, const PointF& pos, D3DCOLOR blendColor = D3DCOLOR_XRGB(255, 255, 255));
+		void drawImage(const Image_dx& image, const PointF& pos, D3DCOLOR blendColor = D3DCOLOR_XRGB(255, 255, 255));	//绘制图像
 
-		void updatePresentParameters();
+		void updatePresentParameters();		//根据窗口大小更新d3dpp
 
-		Signal<ObjFn> releasingDevice;
-		Signal<ObjFn> resettingDevice;
+		Signal<ObjFn> releasingDevice;	//当release设备时发出的信号
+		Signal<ObjFn> resettingDevice;	//当reset设备时发出的信号
 
 		VAR_FUNC(BackgroundColor, backgroundColor, D3DCOLOR,,)
 		VAR_FUNC(GlobalBlend, globalBlend, D3DCOLOR,,)
@@ -61,10 +61,10 @@ namespace ge {
 		static LPDirectx g_pD3D;
 		static D3DDISPLAYMODE d3ddm;
 
-		D3DPRESENT_PARAMETERS d3dpp;
-		LPDevice g_pDevice = nullptr;
-		D3DCOLOR backgroundColor = D3DCOLOR_XRGB(0, 0, 0);
-		D3DCOLOR globalBlend = D3DCOLOR_XRGB(255, 255, 255);
+		D3DPRESENT_PARAMETERS d3dpp;	//d3d显示模式结构体
+		LPDevice g_pDevice = nullptr;	//dx设备
+		D3DCOLOR backgroundColor = D3DCOLOR_XRGB(0, 0, 0);		//clear时的颜色
+		D3DCOLOR globalBlend = D3DCOLOR_XRGB(255, 255, 255);	//全局混色
 
 		LPSprite g_pSprite;			//用于绘制的Sprite
 

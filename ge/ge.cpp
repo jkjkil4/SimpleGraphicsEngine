@@ -99,7 +99,6 @@ int SimpleGraphicsEngine::exec() {
 
 		double curTime = counter.getTime();
 		timerMsec = curTime - startTime;
-		//cout << counter.getTime() - startTime << endl;
 		startTime = curTime;
 	}
 
