@@ -84,6 +84,8 @@ void Device_dx::drawRect(RECT rect, DWORD col) {
 	drawRect(rect, col, col, col, col);
 }
 void Device_dx::drawRect(RECT rect, DWORD col1, DWORD col2, DWORD col3, DWORD col4) {
+	checkRenderType(RenderType::Device);
+
 	Vertex* vertexs;
 	vbRectangle->Lock(0, 0, (void**)&vertexs, 0);
 	vertexs[0] = Vertex{ (float)rect.left, (float)rect.top, 0.0f, 1.0f, col1 };
@@ -97,7 +99,6 @@ void Device_dx::drawRect(RECT rect, DWORD col1, DWORD col2, DWORD col3, DWORD co
 	g_pDevice->SetStreamSource(0, vbRectangle, 0, sizeof(Vertex));
 	g_pDevice->SetIndices(ibRectangle);
 
-	checkRenderType(RenderType::Device);
 	g_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 4, 0, 2);
 }
 
