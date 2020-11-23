@@ -102,9 +102,6 @@ int SimpleGraphicsEngine::exec() {
 		startTime = curTime;
 	}
 
-	cout << "Quit" << endl;
-	Sleep(1000);
-
 	EMIT(&exited);
 
 #ifdef CONSOLE

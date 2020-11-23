@@ -1,8 +1,7 @@
 ﻿// 提示文件帮助 Visual Studio IDE 解释 Visual C++ 标识符,
 // 如函数和宏的名称。
 // 有关详细信息，请参见 https://go.microsoft.com/fwlink/?linkid=865984
-#define VAR_NL_FUNC(FuncName, varibleName, varibleType, Const, Quote) NEEDLOCK_GET_FUNC(mutex##FuncName, FuncName, varibleName, varibleType, Const, Quote) NEEDLOCK_SET_FUNC(mutex##FuncName, FuncName, varibleName, varibleType, Const, Quote) std::mutex mutex##FuncName;
 #define VAR_NL_FUNC(FuncName, varibleName, varibleType, Const, Quote) std::mutex mutex##FuncName; VAR_NL_GET_FUNC(mutex##FuncName, FuncName, varibleName, varibleType) VAR_NL_SET_FUNC(mutex##FuncName, FuncName, varibleName, varibleType, Const, Quote)
 #define CALLBACK
 #define VAR_FUNC(FuncName, varName, Type, Const, Quote) VAR_GET_FUNC(FuncName, varName, Type) VAR_SET_FUNC(FuncName, varName, Type, Const, Quote)
-#define VAR_GET_FUNC(FuncName, varName, Type) Type get##FuncName() const { return varName; }
+#define VAR_GET_FUNC(FuncName, varName, Type) Type get##FuncName() const { return varName; }#define VAR_NL_FUNC(FuncName, varName, Type, Const, Quote) std::mutex mtx##FuncName; VAR_NL_GET_FUNC(mtx##FuncName, FuncName, varName, Type) VAR_NL_SET_FUNC(mtx##FuncName, FuncName, varName, Type, Const, Quote)

@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "ge.h"
 #include "Image_dx.h"
+#include "Console.h"
 
 GE_NAMESPACE;
 
@@ -65,6 +66,31 @@ void Device_dx::end() {
 	}
 	g_pDevice->SetRenderTarget(0, g_pRenderSurface);
 	g_pSprite->Begin(D3DXSPRITE_ALPHABLEND);	//开始Sprite的绘制
+}
+
+void Device_dx::forceResetDevice() {
+	setNeedForceReset(true);
+	resetDevice();
+}
+
+void Device_dx::resetDevice() {
+	setIsResettingDevice(true);
+	wnDevice.notify();
+}
+
+void Device_dx::updateScale() {
+	D3DXMATRIX g_scale;
+	D3DXMatrixTransformation2D(
+		&g_scale,		//返回的矩阵
+		&D3DXVECTOR2(0, 0),		//缩放的中心
+		0.0f,			//影响缩放的因素
+		&D3DXVECTOR2((float)d3dpp.BackBufferWidth / wnd->clientSize.width, (float)d3dpp.BackBufferHeight / wnd->clientSize.height),	//缩放
+		nullptr,	//旋转中心
+		0,			//旋转弧度
+		nullptr		//平移量
+	);
+	g_pSpriteRender->SetTransform(&g_scale);
+	D3DXMatrixIdentity(&g_scale);
 }
 
 void Device_dx::drawImage(const Image_dx& image, const PointF& pos, D3DCOLOR blendColor) {
@@ -182,7 +208,9 @@ void Device_dx::thDeviceFn() {
 		HRESULT hr = g_pDevice->TestCooperativeLevel();
 
 		//设备能被Reset
-		if (hr == D3DERR_DEVICENOTRESET) {
+		if (hr == D3DERR_DEVICENOTRESET || getNeedForceReset()) {
+			setNeedForceReset(false);
+
 			Counter counter;
 			counter.start();
 			//double startTime = counter.getTime();
@@ -190,9 +218,12 @@ void Device_dx::thDeviceFn() {
 			HRESULT hr = g_pDevice->Reset(&d3dpp);
 			if (SUCCEEDED(hr)) {
 				onResetDevice();
+
+				cout << "Info : Succeeded in Resetting D3DDevice" << endl;
 			}
 			else {
 				SGE::msgBox(_T("Error: Cannot Reset D3DDevice"));
+				cout << "Error: Cannot Reset D3DDevice" << endl;
 				//throw Error(Error::ER_RESETFAILED, _T("Error: Cannot Reset D3DDevice"));
 			}
 		}
@@ -202,11 +233,6 @@ void Device_dx::thDeviceFn() {
 
 		setIsResettingDevice(false);
 	}
-}
-
-void Device_dx::resetDevice() {
-	setIsResettingDevice(true);
-	wnDevice.notify();
 }
 
 

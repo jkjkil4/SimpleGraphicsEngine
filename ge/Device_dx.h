@@ -34,6 +34,10 @@ namespace ge {
 		void begin();	//开始主绘制
 		void end();		//结束主绘制
 
+		void forceResetDevice();
+		void resetDevice();
+		void updateScale();
+
 		void drawImage(const Image_dx& image, const PointF& pos, D3DCOLOR blendColor = D3DCOLOR_XRGB(255, 255, 255));	//绘制图像
 
 		void drawRect(int x, int y, int w, int h, DWORD col);
@@ -60,8 +64,9 @@ namespace ge {
 		bool needExitThDevice = false;
 		VAR_NL_FUNC(NeedExitThDevice, needExitThDevice, bool,,)
 
-		void resetDevice();
 		bool isResettingDevice = false;
+		bool needForceReset = false;
+		VAR_NL_FUNC(NeedForceReset, needForceReset, bool,,)
 
 		Window* wnd;
 		static LPDirectx g_pD3D;
