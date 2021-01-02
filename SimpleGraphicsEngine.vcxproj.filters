@@ -36,6 +36,12 @@
     <Filter Include="Class\Graphics\Image">
       <UniqueIdentifier>{82efac0a-dff5-46f7-b62d-d750cb831485}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Widget">
+      <UniqueIdentifier>{18518c29-e4c6-40ab-a14a-5de4a08b6df0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\DS">
+      <UniqueIdentifier>{c1e299de-63be-48c1-9a2a-c5d3d4e5e8c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ge\ge.h">
@@ -89,6 +95,12 @@
     <ClInclude Include="ge\Image_dx.h">
       <Filter>Class\Graphics\Image</Filter>
     </ClInclude>
+    <ClInclude Include="ge\Widget.h">
+      <Filter>Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="ge\Vector.h">
+      <Filter>Class\DS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ge\ge.cpp">
@@ -108,6 +120,9 @@
     </ClCompile>
     <ClCompile Include="ge\Image_dx.cpp">
       <Filter>Class\Graphics\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="ge\Widget.cpp">
+      <Filter>Widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
